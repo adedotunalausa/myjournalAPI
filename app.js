@@ -29,11 +29,11 @@ app.get("/", (req, res) => {
 
 app.get("/journal", (req, res) => {
 
-  Post.find({}, (err, posts) => {
-    if (err) {
-      res.send(err);
-    } else {
+  Post.find({}, async (err, posts) => {
+    try {
       res.send(posts);
+    } catch {
+      res.send(err);
     }
 
   });
@@ -43,8 +43,12 @@ app.get("/journal", (req, res) => {
 app.get("/journal/posts/:postTitle", (req, res) => {
   const requestedPostTitle = req.params.postTitle;
 
-  Post.findOne({title: requestedPostTitle}, (err, post) => {
-    res.send(post);
+  Post.findOne({title: requestedPostTitle}, async (err, post) => {
+    try {
+      res.send(post);
+    } catch {
+      res.send(err);
+    }
   });
 
 });
